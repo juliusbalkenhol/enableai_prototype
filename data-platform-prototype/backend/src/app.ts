@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import datasetRoutes from './routes/datasetRoutes';
+import annotationJobRoutes from "./routes/annotationJobRoutes";
 
 dotenv.config();
 
@@ -17,5 +18,7 @@ app.get('/health', (_req, res) => {
 
 // API-Routen
 app.use('/api/datasets', datasetRoutes);
+app.use("/api/datasets", datasetRoutes);
+app.use("/api/annotation-jobs", annotationJobRoutes);
 
 export default app;

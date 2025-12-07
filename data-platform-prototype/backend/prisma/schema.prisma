@@ -17,19 +17,46 @@ model User {
 }
 
 model Dataset {
-  id          String         @id @default(cuid())
+  id          String          @id @default(cuid())
   title       String
   description String?
-  price       Float          @default(0.0)
-  status      DatasetStatus  @default(DRAFT)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  owner       User?          @relation(fields: [ownerId], references: [id])
+  price       Float           @default(0.0)
+  status      DatasetStatus   @default(DRAFT)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  owner       User?           @relation(fields: [ownerId], references: [id])
   ownerId     String?
+
+  annotationJobs AnnotationJob[]
 }
+
+
+model AnnotationJob {
+  id            String              @id @default(cuid())
+  title         String
+  instructions  String?
+  status        AnnotationJobStatus @default(PENDING)
+  priority      Int                 @default(1)
+  assigneeEmail String?
+  dueDate       DateTime?
+
+  dataset       Dataset             @relation(fields: [datasetId], references: [id])
+  datasetId     String
+
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
 
 enum DatasetStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum AnnotationJobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
