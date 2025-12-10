@@ -1,0 +1,3 @@
+[submodule "login"]
+	path = login
+	url = https://github.com/zitadel/zitadel.git
